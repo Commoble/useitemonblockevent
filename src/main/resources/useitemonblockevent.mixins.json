@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "commoble.useitemonblockevent.internal.mixins",
+	"compatibilityLevel": "JAVA_17",
+	"refmap": "useitemonblockevent.refmap.json",
+	"mixins": 
+	[
+		"ServerPlayerGameModeMixin"
+	],
+	"client": 
+	[
+		"MultiPlayerGameModeMixin"
+	],
+	"injectors": 
+	{
+		"defaultRequire": 1
+	},
+	"minVersion": "0.8"
+}
