@@ -3,7 +3,7 @@ package commoble.useitemonblockevent.examplemod;
 import commoble.useitemonblockevent.api.UseItemOnBlockEvent;
 import commoble.useitemonblockevent.api.UseItemOnBlockEvent.UsePhase;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -41,7 +41,7 @@ public class ExampleMod
 				{
 					if (!level.isClientSide)
 					{
-						context.getPlayer().displayClientMessage(new TextComponent("Can't place dirt on grass"), false);
+						context.getPlayer().displayClientMessage(Component.literal("Can't place dirt on grass"), false);
 					}
 					event.cancelWithResult(InteractionResult.SUCCESS);
 				}

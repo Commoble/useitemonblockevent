@@ -1,6 +1,6 @@
 package commoble.useitemonblockevent.internal;
 
-import java.util.function.Supplier;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import commoble.useitemonblockevent.api.UseItemOnBlockEvent;
 import net.minecraft.world.InteractionHand;
@@ -9,26 +9,26 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.MinecraftForge;
 
 public class MixinCallbacks
 {
-	public static InteractionResult onItemUseFirst(ItemStack stack, UseOnContext useOnContext)
+	public static void onItemUseFirst(ItemStack stack, UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> callbackInfo)
 	{
-		return fireUseItemOnBlock(useOnContext, UseItemOnBlockEvent.UsePhase.PRE_BLOCK, () -> stack.onItemUseFirst(useOnContext));
+		fireUseItemOnBlock(useOnContext, UseItemOnBlockEvent.UsePhase.PRE_BLOCK, callbackInfo);
 	}
 	
-	public static InteractionResult onBlockUse(BlockState state, Level level, Player player, InteractionHand hand, BlockHitResult hitResult)
+	public static void onBlockUse(BlockStateBase state, Level level, Player player, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> callbackInfo)
 	{
 		UseOnContext useOnContext = new UseOnContext(level, player, hand, player.getItemInHand(hand).copy(), hitResult);
-		return fireUseItemOnBlock(useOnContext, UseItemOnBlockEvent.UsePhase.BLOCK, () -> state.use(level, player, hand, hitResult));
+		fireUseItemOnBlock(useOnContext, UseItemOnBlockEvent.UsePhase.BLOCK, callbackInfo);
 	}
 
-	public static InteractionResult onUseItemOnBlock(ItemStack stack, UseOnContext useOnContext)
+	public static void onUseItemOnBlock(ItemStack stack, UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> callbackInfo)
 	{
-		return fireUseItemOnBlock(useOnContext, UseItemOnBlockEvent.UsePhase.POST_BLOCK, () -> stack.useOn(useOnContext));
+		fireUseItemOnBlock(useOnContext, UseItemOnBlockEvent.UsePhase.POST_BLOCK, callbackInfo);
 	}
 	
 	/**
@@ -37,10 +37,13 @@ public class MixinCallbacks
 	 * @param defaultCallback The interaction method to use if event is *not* cancelled, e.g. () -> itemStack.useOn()
 	 * @return result
 	 */
-	private static InteractionResult fireUseItemOnBlock(UseOnContext useOnContext, UseItemOnBlockEvent.UsePhase usePhase, Supplier<InteractionResult> defaultCallback)
+	private static void fireUseItemOnBlock(UseOnContext useOnContext, UseItemOnBlockEvent.UsePhase usePhase, CallbackInfoReturnable<InteractionResult> callbackInfo)
 	{
 		UseItemOnBlockEvent event = new UseItemOnBlockEvent(useOnContext, usePhase);
 		MinecraftForge.EVENT_BUS.post(event);
-		return event.isCanceled() ? event.getCancellationResult() : defaultCallback.get();
+		if (event.isCanceled())
+		{
+			callbackInfo.setReturnValue(event.getCancellationResult());
+		}
 	}
 }

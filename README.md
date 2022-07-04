@@ -16,8 +16,8 @@ dependencies {
 }
 ```
 where
-* The group id `${useitemonblockevent-mcversion}` is e.g. `useitemonblockevent-1.18.1`, indicating the version of minecraft useitemonblockevent was compiled against.
-* `${useitemonblockevent-version}` is e.g. `1.0.0.0`, the build version of the mod to use.
+* The group id `${useitemonblockevent-mcversion}` is e.g. `useitemonblockevent-1.19`, indicating the version of minecraft useitemonblockevent was compiled against.
+* `${useitemonblockevent-version}` is e.g. `1.0.0.1`, the build version of the mod to use.
 
 Projects that use other mappings sets can alternatively depend on this mod via cursemaven; however, sources and javadocs will not be available. https://www.cursemaven.com/
 

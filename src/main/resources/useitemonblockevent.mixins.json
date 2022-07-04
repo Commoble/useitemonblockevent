@@ -5,11 +5,8 @@
 	"refmap": "useitemonblockevent.refmap.json",
 	"mixins": 
 	[
-		"ServerPlayerGameModeMixin"
-	],
-	"client": 
-	[
-		"MultiPlayerGameModeMixin"
+        "BlockStateBaseMixin",
+        "ItemStackMixin"
 	],
 	"injectors": 
 	{
