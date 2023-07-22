@@ -1,6 +1,8 @@
 Use Item on Block Event is a forge mod that adds a cancellable forge event that fires when the player right-clicks a block.
 
-Built jars are available here: https://www.curseforge.com/minecraft/mc-mods/use-item-on-block-event
+Built jars are available here:
+* https://www.curseforge.com/minecraft/mc-mods/use-item-on-block-event
+* https://modrinth.com/mod/use-item-on-block-event
 
 ## Dependency Setup
 
